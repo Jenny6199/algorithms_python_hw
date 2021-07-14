@@ -8,10 +8,24 @@
 import sys
 
 
-try:
-    year = (int(input('Введите год: ')))
-except ValueError:
-    print(' \033[041mОшибка ввода данных!\033[0m')
-    sys.exit()
-result = 366 if ((year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)) else 365
-print(result)
+def is_year_leap():
+    """Функция запрашивает у пользователя год и возвращает True если год високосный, False если нет."""
+    try:
+        year = (int(input('Введите год: ')))
+    except ValueError:
+        print(' \033[031mОшибка ввода данных!\033[0m')
+        sys.exit()
+    result = True if ((year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)) else False
+    return result
+
+
+def run():
+    """Агрегация функций"""
+    if is_year_leap():
+        print('Указанный год високосный.')
+    else:
+        print('Указанный год невисокосный.')
+
+
+if __name__ == '__main__':
+    run()
