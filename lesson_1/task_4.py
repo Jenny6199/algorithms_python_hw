@@ -19,8 +19,41 @@ def get_users_boarder():
     Функция запрашивает у пользователя границы диапазона выборки и возвращает их в виде кортежа.
     :return - кортеж со значением границ диапазона.
     """
-    boarders = [input('Введите значения диапазона: ') for _ in range(2)]
+    boarders = [input('Введите значение диапазона: ') for _ in range(2)]
     return boarders[0], boarders[1]
+
+
+def data_parser(data):
+    """
+    Функция определяет какие данные ввел пользователь.
+    Если введено число, вещественное число или буква алфавита возвращает соответствующее сообщение.
+    Если введены другие данные возвращает False.
+    :param data - str анализируемая строка.
+    :return в зависимости от полученных данных возвращает 'int', 'float', 'str' или False
+    """
+    if len(data) == 1:
+        try:
+            data = int(data)
+            return 'int'
+        except ValueError:
+            symbols = [chr(el) for el in range(97, 123)]    # латинский алфавит.
+            if data in symbols:
+                return 'str'
+            else:
+                return False
+    else:
+        if chr(46) in data:
+            try:
+                float(data)
+                return 'float'
+            except ValueError:
+                return False
+        else:
+            try:
+                int(data)
+                return 'int'
+            except ValueError:
+                return False
 
 
 def random_symbol(data: tuple):
@@ -57,15 +90,17 @@ def random_float(data: tuple):
 
 
 def run():
-    print('Генерация случайного символа: ')
-    data_1 = get_users_boarder()
-    print(random_symbol(data_1))
-    print('Генерация случайного целого числа: ')
-    data_2 = get_users_boarder()
-    print(random_integer(data_2))
-    print('Генерация случайного вещественного числа: ')
-    data_3 = get_users_boarder()
-    print(random_float(data_3))
+    """Агрегация функций и запуск работы программы."""
+    data = get_users_boarder()
+    if data_parser(data[0]) == 'int' and data_parser(data[1]) == 'int':
+        result = random_integer(data)
+    elif data_parser(data[0]) == 'float' and data_parser(data[1]) == 'float':
+        result = random_float(data)
+    elif data_parser(data[0]) == 'str' and data_parser(data[1]) == 'str':
+        result = random_symbol(data)
+    else:
+        result = '\033[031m Ошибка ввода данных!\033[0m'
+    print(result)
 
 
 if __name__ == '__main__':
