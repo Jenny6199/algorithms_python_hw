@@ -7,22 +7,21 @@
 Примечание: попробуйте написать несколько реализаций алгоритма и сравнить их.
 """
 import cProfile
-from random import randint
+# import timeit
+import random
+
+# Ретроспективно просмотрев свой предыдущий код, и не найдя в нем достойных функций
+# (это отдельная тема: захотелось все переписать), решил привести примеры эмпирической
+# оценки на примерах алгоритмов сортировки. Тем более что это полезно для запоминания.
 
 
-def f1(n):
-    """doc"""
-    arr_1 = [randint(1, 999) for _ in range(n)]
-    return arr_1
+def square_bubble_sort(array: list):
+    """Сортировка массива методом 'пузырька'. Сложность алгоритма O(n**2)"""
+    for i in range(len(array)-1):
+        for j in range(len(array)-1):
+            if array[j] < array[j-1]:
+                array[j], array[j-1] = array[j-1], array[j]
+    return array
 
 
-def f2(n):
-    """doc"""
-    arr_1 = list()
-    for el in range(n):
-        arr_1.append(randint(1, 999))
-    return arr_1
-
-
-cProfile.run('f1(5000000)')
-cProfile.run('f2(5000000)')
+cProfile.run('square_bubble_sort([random.randint(1, 100) for el in range(100000)])')
